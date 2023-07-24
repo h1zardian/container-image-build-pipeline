@@ -1,0 +1,43 @@
+👋 Welcome to the devcontainer of my project! This container is based on the Codespace universal image. 
+   - It includes runtimes and tools for Python, Docker, Kubernetes, Terraform, Ansible and more. See the full list here: https://github.com/h1zardian/cicd-pipeline-project-repo
+   - Want to customize it even more? Learn more here: https://aka.ms/configure-codespace
+
+🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P or F1).
+
+📝 Edit away, run your app as usual, and the devcontainer will automatically make it available for you to access...
+
+
+
+
+134.3 Reading package lists...
+135.6 Building dependency tree...
+135.8 Reading state information...
+136.3 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+136.3 mv: cannot stat '/tmp/scripts/first-run-notice.txt': No such file or directory
+------
+Dockerfile-with-features:45
+--------------------
+  44 |     # Install additional build tools
+  45 | >>> RUN apt-get update \
+  46 | >>>     && apt-get -y install build-essential cmake cppcheck valgrind clang lldb llvm gdb python3-dev \
+  47 | >>>     && apt-get install -yq vim vim-doc xtail software-properties-common libsecret-1-dev \
+  48 | >>>     && apt-get install -y --no-install-recommends libnss3 libnspr4 libatk-bridge2.0-0 libatk1.0-0 libx11-6 libpangocairo-1.0-0 \
+  49 | >>>                                                   libx11-xcb1 libcups2 libxcomposite1 libxdamage1 libxfixes3 libpango-1.0-0 libgbm1 libgtk-3-0 \
+  50 | >>>     && apt-get autoremove -y && apt-get clean -y \
+  51 | >>>     && mkdir -p "/usr/local/etc/vscode-dev-containers/" \
+  52 | >>>     && mv -f /tmp/scripts/first-run-notice.txt /usr/local/etc/vscode-dev-containers/
+  53 |     
+--------------------
+ERROR: failed to solve: process "/bin/sh -c apt-get update     && apt-get -y install build-essential cmake cppcheck valgrind clang lldb llvm gdb python3-dev     && apt-get install -yq vim vim-doc xtail software-properties-common libsecret-1-dev     && apt-get install -y --no-install-recommends libnss3 libnspr4 libatk-bridge2.0-0 libatk1.0-0 libx11-6 libpangocairo-1.0-0                                                   libx11-xcb1 libcups2 libxcomposite1 libxdamage1 libxfixes3 libpango-1.0-0 libgbm1 libgtk-3-0     && apt-get autoremove -y && apt-get clean -y     && mkdir -p \"/usr/local/etc/vscode-dev-containers/\"     && mv -f /tmp/scripts/first-run-notice.txt /usr/local/etc/vscode-dev-containers/" did not complete successfully: exit code: 1
+[344273 ms] Error: Command failed: docker buildx build --load --build-arg BUILDKIT_INLINE_CACHE=1 -f /tmp/devcontainercli-zardi/container-features/0.46.0-1690220427083/Dockerfile-with-features -t vsc-codespace-test-cb9e4aafe5ee03f861b57505d381789c503f6219c54df26e4521a6eee977a83b --target dev_containers_target_stage --build-context dev_containers_feature_content_source=/tmp/devcontainercli-zardi/container-features/0.46.0-1690220427083 --build-arg _DEV_CONTAINERS_BASE_IMAGE=final --build-arg _DEV_CONTAINERS_IMAGE_USER=root --build-arg _DEV_CONTAINERS_FEATURE_CONTENT_SOURCE=dev_container_feature_content_temp /home/zardi/codespace-test/.devcontainer
+[344273 ms]     at Ute (/home/zardi/.vscode/extensions/ms-vscode-remote.remote-containers-0.299.0/dist/spec-node/devContainersSpecCLI.js:2008:1698)
+[344274 ms]     at process.processTicksAndRejections (node:internal/process/task_queues:96:5)
+[344274 ms]     at async fC (/home/zardi/.vscode/extensions/ms-vscode-remote.remote-containers-0.299.0/dist/spec-node/devContainersSpecCLI.js:2007:1691)
+[344274 ms]     at async n3 (/home/zardi/.vscode/extensions/ms-vscode-remote.remote-containers-0.299.0/dist/spec-node/devContainersSpecCLI.js:2007:610)
+[344275 ms]     at async rre (/home/zardi/.vscode/extensions/ms-vscode-remote.remote-containers-0.299.0/dist/spec-node/devContainersSpecCLI.js:2024:3660)
+[344275 ms]     at async Yf (/home/zardi/.vscode/extensions/ms-vscode-remote.remote-containers-0.299.0/dist/spec-node/devContainersSpecCLI.js:2024:4775)
+[344275 ms]     at async Dne (/home/zardi/.vscode/extensions/ms-vscode-remote.remote-containers-0.299.0/dist/spec-node/devContainersSpecCLI.js:2156:12193)
+[344275 ms]     at async Sne (/home/zardi/.vscode/extensions/ms-vscode-remote.remote-containers-0.299.0/dist/spec-node/devContainersSpecCLI.js:2156:11934)
+[344285 ms] Exit code 1
+[344297 ms] Command failed: /usr/share/code/code --ms-enable-electron-run-as-node /home/zardi/.vscode/extensions/ms-vscode-remote.remote-containers-0.299.0/dist/spec-node/devContainersSpecCLI.js up --user-data-folder /home/zardi/.config/Code/User/globalStorage/ms-vscode-remote.remote-containers/data --container-session-data-folder /tmp/devcontainers-4f3d4518-ad2f-4761-9cc1-c63ba9ad03671690220419836 --workspace-folder /home/zardi/codespace-test --workspace-mount-consistency cached --id-label devcontainer.local_folder=/home/zardi/codespace-test --id-label devcontainer.config_file=/home/zardi/codespace-test/.devcontainer/devcontainer.json --log-level debug --log-format json --config /home/zardi/codespace-test/.devcontainer/devcontainer.json --default-user-env-probe loginInteractiveShell --mount type=volume,source=vscode,target=/vscode,external=true --mount type=bind,source=/run/user/1000/wayland-0,target=/tmp/vscode-wayland-81fd1092-5be0-4d00-abd4-6fd855091b34.sock --skip-post-create --update-remote-user-uid-default on --mount-workspace-git-root true
+[344297 ms] Exit code 1

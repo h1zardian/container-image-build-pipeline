@@ -1,43 +1,133 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/universal
+// Source: https://github.com/devcontainers/images/tree/main/src/universal
 {
-	"name": "Default Linux Universal",
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/universal:2-linux",
-	"features": {
-		"ghcr.io/devcontainers/features/aws-cli:1": {},
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
-		"ghcr.io/devcontainers-contrib/features/terraform-asdf:2": {},
-		"ghcr.io/devcontainers-contrib/features/ansible:2": {}
-	},
-	"customizations": {
-		// Configure properties specific to VS Code.
-		"vscode": {
-			// Add the IDs of extensions you want installed when the container is created.
-			"extensions": [
-				"ms-python.python",
+    "build": {
+        "dockerfile": "./Dockerfile",
+        "context": "."
+    },
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "username": "cicd-pipeline",
+            "userUid": "1000",
+            "userGid": "1000"
+        },
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.10.8",
+            "additionalVersions": "3.9.16",
+            "installJupyterlab": "true",
+            "configureJupyterlabAllowOrigin": "*"
+        },
+        "ghcr.io/devcontainers/features/conda:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/sshd:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": "false"
+        },
+        "ghcr.io/devcontainers/features/git-lfs:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/aws-cli:1": {
+            "version": "latest"
+        },
+		"ghcr.io/devcontainers-contrib/features/terraform-asdf:2": {
+            "version": "latest"
+        },
+		"ghcr.io/devcontainers-contrib/features/ansible:2": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/oryx:1": "latest",
+        "./local-features/setup-user": "latest",
+        "./local-features/patch-python": "latest"
+    },
+    "overrideFeatureInstallOrder": [
+        "ghcr.io/devcontainers/features/common-utils",
+        "ghcr.io/devcontainers/features/git",
+        "ghcr.io/devcontainers/features/python",
+        "./local-features/patch-python",
+        "ghcr.io/devcontainers/features/conda",
+        "ghcr.io/devcontainers/features/sshd",
+        "ghcr.io/devcontainers/features/git-lfs",
+        "ghcr.io/devcontainers/features/github-cli",
+        "ghcr.io/devcontainers/features/docker-in-docker",
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube",
+        "ghcr.io/devcontainers/features/oryx",
+        "./local-features/setup-user"
+    ],
+    "remoteUser": "cicd-pipeline",
+    "containerUser": "cicd-pipeline",
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [],
+
+    // Configure tool-specific properties.
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            // Set *default* container specific settings.json values on container create.
+            "settings": {
+                "python.defaultInterpreterPath": "/home/cicd-pipeline/.python/current/bin/python3",
+                "python.formatting.autopep8Path": "/usr/local/py-utils/bin/autopep8",
+                "python.formatting.blackPath": "/usr/local/py-utils/bin/black",
+                "python.linting.flake8Path": "/usr/local/py-utils/bin/flake8",
+                "python.linting.flake8Enabled": false,
+                "python.linting.mypyPath": "/usr/local/py-utils/bin/mypy",
+                "python.linting.mypyEnabled": false,
+                "python.linting.pylintPath": "/usr/local/py-utils/bin/pylint",
+                "python.linting.pylintEnabled": false,
+                "jupyter.kernels.filter": [
+                    {
+                        "path": "/opt/conda/bin/python",
+                        "type": "pythonEnvironment"
+                    },
+                    {
+                        "path": "/usr/local/python/current/bin/python3",
+                        "type": "pythonEnvironment"
+                    },
+                    {
+                        "path": "/usr/local/python/current/bin/python",
+                        "type": "pythonEnvironment"
+                    },
+                    {
+                        "path": "/usr/bin/python3",
+                        "type": "pythonEnvironment"
+                    },
+                    {
+                        "path": "/bin/python3",
+                        "type": "pythonEnvironment"
+                    }
+                ],
+                "lldb.executable": "/usr/bin/lldb"
+            },
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+                "GitHub.vscode-pull-request-github",
+                "ms-python.python",
 				"redhat.vscode-yaml",
 				"ms-azuretools.vscode-docker",
 				"amazonwebservices.aws-toolkit-vscode",
 				"hashicorp.terraform",
 				"redhat.ansible",
 				"redhat.vscode-yaml"
-			]
-		}
-	},
-
-	// Features to add to the dev container. More info: https://containers.dev/features.
-	// "features": {},
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "pip3 install --user ansible-lint"
-
-	// Configure tool-specific properties.
-	// "customizations": {},
-
-	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "root"
+            ]
+        }
+    },
+    // "containerEnv": {
+    //     "AWS_ACCESS_KEY_ID": "${localEnv:AWS_ACCESS_KEY_ID}",
+    //     "AWS_SECRET_ACCESS_KEY": "${localEnv:AWS_SECRET_ACCESS_KEY}"
+    // }
+    "mounts": [
+            "source=${localEnv:HOME}/.aws,target=/home/cicd-pipeline/.aws,type=bind,consistency=cached"
+        ]
 }
