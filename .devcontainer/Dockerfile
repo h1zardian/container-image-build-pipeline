@@ -63,9 +63,7 @@ COPY --from=build /usr/local/etc/vscode-dev-containers /usr/local/etc/vscode-dev
 ENV SHELL=/usr/bin/zsh
 
 # User customizations
-RUN python3 -m pip install --user --upgrade pip \
-    && python3 -m pip install --user ansible-lint \
-    && echo "alias tfm='terraform'" >> /etc/bash.bashrc
+RUN echo "alias tfm='terraform'" >> /etc/bash.bashrc
 
 # Remove scripts now that we're done with them
 RUN apt-get clean -y && rm -rf /tmp/scripts

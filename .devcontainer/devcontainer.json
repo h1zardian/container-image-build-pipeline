@@ -61,7 +61,10 @@
         "ghcr.io/devcontainers/features/git-lfs",
         "ghcr.io/devcontainers/features/github-cli",
         "ghcr.io/devcontainers/features/docker-in-docker",
+        "ghcr.io/devcontainers-contrib/features/ansible",
+        "ghcr.io/devcontainers-contrib/features/terraform-asdf",
         "ghcr.io/devcontainers/features/kubectl-helm-minikube",
+        "ghcr.io/devcontainers/features/aws-cli",
         "ghcr.io/devcontainers/features/oryx",
         "./local-features/setup-user"
     ],
@@ -127,6 +130,8 @@
     //     "AWS_ACCESS_KEY_ID": "${localEnv:AWS_ACCESS_KEY_ID}",
     //     "AWS_SECRET_ACCESS_KEY": "${localEnv:AWS_SECRET_ACCESS_KEY}"
     // }
+    "postCreateCommand": "python3 -m pip install --user --upgrade pip && python3 -m pip install --user ansible-lint",
+
     "mounts": [
             "source=${localEnv:HOME}/.aws,target=/home/cicd-pipeline/.aws,type=bind,consistency=cached"
         ]
