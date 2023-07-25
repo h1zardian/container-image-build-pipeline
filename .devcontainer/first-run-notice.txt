@@ -1,5 +1,5 @@
 👋 Welcome to the devcontainer of my project! This container is based on the Codespace universal image. 
-   - It includes runtimes and tools for Python, Docker, Kubernetes, Terraform, Ansible and more. See the full list here: https://github.com/h1zardian/cicd-pipeline-project-repo
+   - It includes runtimes and tools for Python, Docker, Terraform, Ansible and more. See the full list here: https://github.com/h1zardian/cicd-pipeline-project-repo
    - Want to customize it even more? Learn more here: https://aka.ms/configure-codespace
 
 🔍 To explore VS Code to its fullest, search using the Command Palette (Cmd/Ctrl + Shift + P or F1).
