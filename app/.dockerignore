@@ -1,7 +1,3 @@
-# Ansible files
-group_vars/
-temp/
-
 # Django #
 __pycache__/
 *.log
@@ -9,10 +5,17 @@ __pycache__/
 *.pyc
 
 
+# AWS Configs #
+serverconfig.*
+
 # Runtime files #
-*.env
+Dockerfile
+docker-compose.yml
 *.log
 
+# Git files #
+.git
+.gitignore
 
 # Backup files #
 *.bak
@@ -74,8 +77,6 @@ celerybeat-schedule.*
 *.sage.py
 
 # Environments
-*.key
-.env
 .venv
 env/
 venv/
@@ -83,10 +84,6 @@ ENV/
 env.bak/
 venv.bak/
 .kube/
-.terraform/
-.terraform.lock.hcl
-terraform.tfstate
-terraform.tfstate.backup
 
 # mkdocs documentation
 /site
@@ -105,6 +102,7 @@ Control.system-ca-bundle
 GitHub.sublime-settings
 
 # Visual Studio Code #
+*.code-workspace
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json

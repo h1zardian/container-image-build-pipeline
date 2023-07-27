@@ -1,0 +1,20 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin"
+  numExecutors: 5
+  scmCheckoutRetryCount: 2
+  mode: NORMAL
+  jobs:
+    - script: >
+        pipelineJob('DjangoAppBuild') {
+          definition {
+            cpsScm {
+              scm {
+                git {
+                  remote { url('https://github.com/h1zardian/cicd-pipeline-project.git') }
+                  branches('main')
+                }
+              }
+              scriptPath('app/jenkinsfile')
+            }
+          }
+        }

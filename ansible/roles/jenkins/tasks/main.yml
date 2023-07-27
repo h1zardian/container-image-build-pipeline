@@ -1,0 +1,51 @@
+---
+- name: Install Docker
+  ansible.builtin.apt:
+    name: docker.io
+    state: present
+    update_cache: true
+
+- name: Start Docker and enable at boot
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Pull Jenkins Docker image
+  community.docker.docker_image:
+    name: jenkins/jenkins
+    tag: lts
+    source: pull
+
+- name: Run Jenkins container
+  community.docker.docker_container:
+    name: jenkins
+    image: jenkins/jenkins:lts
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/jenkins_home
+
+- name: Copy JCasC configuration file to Jenkins server
+  ansible.builtin.copy:
+    src: roles/jenkins/files/jenkins-casc.yml
+    dest: /var/jenkins_home/casc_configs/jenkins.yaml
+    owner: root
+    group: root
+
+- name: Install Jenkins plugins
+  ansible.builtin.command: >
+    docker exec jenkins bash -c 'jenkins-plugin-cli --plugins git credentials job-dsl configuration-as-code'
+  register: result
+  changed_when: result.stdout.find('No updates found') == -1
+  until: result.rc == 0
+  retries: 5
+  delay: 60
+
+- name: Restart Jenkins container
+  community.docker.docker_container:
+    name: jenkins
+    state: started
+    restart: true
