@@ -1,46 +1,70 @@
-# use the official Python base image
-FROM python:3.10-bookworm
+# === Builder ===
+FROM python:3.10-slim-bookworm as builder
 
-# set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Set working directory
+WORKDIR /usr/src/app
 
-# create directory for the app user
-RUN mkdir -p /home/app
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
 
-# create the app user
-RUN groupadd -r app && useradd -r -g app app
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc libc6-dev make git \
+    libffi-dev libssl-dev python3-dev \
+    libxml2-dev libxslt-dev \
+    libjpeg62-turbo-dev zlib1g-dev libfreetype6-dev
 
-# create the appropriate directories
-ENV HOME=/home/app
-ENV APP_HOME=/home/app/web
-RUN mkdir $APP_HOME && \
-    mkdir $APP_HOME/staticfiles && \
-    mkdir $APP_HOME/mediafiles
+# Upgrade pip
+RUN pip install --upgrade pip
 
-WORKDIR $APP_HOME
+# Install project requirements
+COPY requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
 
-# copy project files
-COPY .env $APP_HOME
-COPY /app $APP_HOME
+# === Runner ===
+FROM python:3.10-slim-bookworm as runner
 
-# chown all the files to the app user
-RUN chown -R app:app $APP_HOME
+# Create the app user and group
+RUN addgroup --system app && adduser --system --group app
 
-# install netcat-openbsd package
-RUN apt-get update && \
-    apt-get install netcat-openbsd -y && \
-    chmod +x $APP_HOME/entrypoint.sh
+# Create directories for the app
+RUN mkdir -p /home/app/web/staticfiles && \
+    mkdir -p /home/app/web/mediafiles && \
+    chown -R app:app /home/app
 
-# install dependencies
-RUN python3 -m pip install --user --upgrade pip && \
-    python3 -m pip install -r requirements.txt
+# Use /home/app as the working directory
+WORKDIR /home/app
 
-# change to the app user
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 libncurses5 libfreetype6 netcat-openbsd
+
+# Clean up the apt cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Copy project requirements
+COPY --from=builder /usr/src/app/wheels /wheels
+COPY --from=builder /usr/src/app/requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache /wheels/*
+
+# Change to non-root user
 USER app
 
-# expose the app on port 8000
+# Copy the entrypoint.sh script (if you have one)
+COPY --chown=app:app ./entrypoint.sh /home/app/web
+RUN chmod +x /home/app/web/entrypoint.sh
+
+# Copy the Django app
+COPY --chown=app:app . /home/app/web
+
+# Set the working directory to the Django app
+WORKDIR /home/app/web
+
+# Expose the port
 EXPOSE 8000
 
-# run entrypoint.sh
+# Start the app
 ENTRYPOINT ["/home/app/web/entrypoint.sh"]

@@ -79,11 +79,11 @@ WSGI_APPLICATION = 'console.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get('SQL_ENGINE', 'django.db.backends.sqlite3'),
-        "NAME": os.environ.get('POSTGRES_DB', BASE_DIR / 'db.sqlite3'),
-        "USER": os.environ.get('POSTGRES_USER', 'user'),
+        "ENGINE": os.environ.get('SQL_ENGINE', 'django.db.backends.postgresql'), # django.db.backends.sqlite3
+        "NAME": os.environ.get('POSTGRES_DB', 'djangodb'), # BASE_DIR / 'db.sqlite3'
+        "USER": os.environ.get('POSTGRES_USER', 'djangouser'),
         "PASSWORD": os.environ.get('POSTGRES_PASSWORD', 'password'),
-        "HOST": os.environ.get('SQL_HOST', 'localhost'),
+        "HOST": os.environ.get('SQL_HOST', 'db'), # localhost
         "PORT": os.environ.get('SQL_PORT', '5432'),
     }
 }
