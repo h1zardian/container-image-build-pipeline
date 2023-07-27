@@ -60,7 +60,7 @@ FROM base AS final
 COPY --from=build /usr/local/etc/vscode-dev-containers /usr/local/etc/vscode-dev-containers
 
 # Default to bash shell (other shells available at /usr/bin/fish and /usr/bin/zsh)
-ENV SHELL=/usr/bin/zsh
+ENV SHELL=/usr/bin/bash
 
 # User customizations
 RUN echo "alias tfm='terraform'" >> /etc/bash.bashrc

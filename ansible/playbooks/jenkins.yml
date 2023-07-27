@@ -17,8 +17,9 @@
 
     - name: Pull Jenkins Docker image
       community.docker.docker_image:
-        name: jenkins/jenkins:lts
-        pull: always
+        name: jenkins/jenkins
+        tag: lts
+        source: pull
 
     - name: Run Jenkins container
       community.docker.docker_container:
@@ -33,9 +34,10 @@
 
 
     - name: Install Jenkins plugins
-      ansible.builtin.command:
-        cmd: "docker exec jenkins bash -c 'jenkins-plugin-cli --plugins git credentials job-dsl configuration-as-code'"
+      ansible.builtin.command: >
+        docker exec jenkins bash -c 'jenkins-plugin-cli --plugins git credentials job-dsl configuration-as-code'
       register: result
+      changed_when: result.stdout.find('No updates found') == -1
       until: result.rc == 0
       retries: 5
       delay: 60

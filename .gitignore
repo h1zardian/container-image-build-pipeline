@@ -3,3 +3,4 @@ terraform.tfstate.backup
 .vscode/
 .terraform/
 *.key
+group_vars/

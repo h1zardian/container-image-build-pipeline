@@ -36,7 +36,7 @@ resource "aws_security_group" "jenkins" {
 }
 
 resource "aws_s3_bucket" "tfstate" {
-  bucket = "tfstate-bucket-20230723" # replace with a unique bucket name
+  bucket = "tfstate-bucket-20230727" # replace with a unique bucket name
 }
 
 resource "aws_s3_bucket_ownership_controls" "tfstate" {
