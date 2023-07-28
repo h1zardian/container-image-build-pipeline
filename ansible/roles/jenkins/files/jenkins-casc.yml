@@ -3,6 +3,12 @@ jenkins:
   numExecutors: 5
   scmCheckoutRetryCount: 2
   mode: NORMAL
+unclassified:
+  githubpluginconfig:
+    configs:
+      - name: "h1zardian"
+        apiUrl: "https://api.github.com"
+        credentialsId: "github"
   jobs:
     - script: >
         pipelineJob('DjangoAppBuild') {
@@ -12,12 +18,16 @@ jenkins:
                 git {
                   remote { url('https://github.com/h1zardian/cicd-pipeline-project.git') }
                   branches('main')
+                  extensions {
+                    wipeOutWorkspace()
+                    cleanAfterCheckout()
+                  }
                 }
               }
               scriptPath('app/jenkinsfile')
             }
           }
           triggers {
-            scm('H * * * *')
-          }          
+            githubPush()
+          }
         }

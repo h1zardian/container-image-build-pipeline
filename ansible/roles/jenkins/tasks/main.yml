@@ -54,7 +54,7 @@
 
 - name: Install Jenkins plugins
   ansible.builtin.command: >
-    docker exec jenkins bash -c 'jenkins-plugin-cli --plugins git credentials job-dsl configuration-as-code'
+    docker exec jenkins bash -c 'jenkins-plugin-cli --plugins git credentials job-dsl configuration-as-code github-branch-source'
   register: result
   changed_when: result.stdout.find('No updates found') == -1
   until: result.rc == 0
