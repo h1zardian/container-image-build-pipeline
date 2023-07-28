@@ -17,4 +17,7 @@ jenkins:
               scriptPath('app/jenkinsfile')
             }
           }
+          triggers {
+            scm('H * * * *')
+          }          
         }

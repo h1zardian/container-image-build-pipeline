@@ -10,6 +10,8 @@ resource "aws_instance" "jenkins" {
 
   vpc_security_group_ids = [aws_security_group.jenkins.id]
 
+  associate_public_ip_address = true
+
   tags = {
     Name = "jenkins-server"
   }
@@ -27,28 +29,18 @@ resource "aws_security_group" "jenkins" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "Jenkins"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
-}
-
-resource "aws_s3_bucket" "tfstate" {
-  bucket = "tfstate-bucket-20230727" # replace with a unique bucket name
-}
-
-resource "aws_s3_bucket_ownership_controls" "tfstate" {
-  bucket = aws_s3_bucket.tfstate.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
-}
-
-resource "aws_s3_bucket_acl" "tfstate" {
-  depends_on = [aws_s3_bucket_ownership_controls.tfstate]
-
-  bucket = aws_s3_bucket.tfstate.id
-  acl    = "private"
 }
