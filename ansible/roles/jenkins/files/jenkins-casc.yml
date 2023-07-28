@@ -3,6 +3,9 @@ jenkins:
   numExecutors: 5
   scmCheckoutRetryCount: 2
   mode: NORMAL
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
 unclassified:
   githubpluginconfig:
     configs:
