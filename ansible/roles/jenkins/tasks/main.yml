@@ -1,4 +1,13 @@
 ---
+- name: Include Docker Hub credentials
+  ansible.builtin.include_vars:
+    file: group_vars/secrets.yml
+    name: secrets
+
+- name: Docker Login
+  ansible.builtin.command:
+    cmd: echo {{ secrets.dockerhub_password }} | docker login -u {{ secrets.dockerhub_username }} --password-stdin
+
 - name: Install Docker
   ansible.builtin.apt:
     name: docker.io
