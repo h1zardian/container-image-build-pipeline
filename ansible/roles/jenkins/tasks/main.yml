@@ -21,6 +21,14 @@
     tag: lts-jdk11
     source: pull
 
+- name: Create Jenkins data directory
+  ansible.builtin.file:
+    path: ~/jenkins_data
+    state: directory
+    owner: 1000
+    group: 1000
+    mode: '0755'
+
 - name: Run Jenkins container
   community.docker.docker_container:
     name: jenkins
@@ -30,7 +38,10 @@
       - "50000:50000"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/jenkins_home
+      - ~/jenkins_data:/var/jenkins_home
+    env:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+      CASC_JENKINS_CONFIG: "/var/jenkins_home/casc_configs"
 
 - name: Create casc_configs directory in Jenkins container
   ansible.builtin.command:
