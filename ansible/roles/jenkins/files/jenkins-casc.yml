@@ -12,6 +12,7 @@ unclassified:
       - name: "h1zardian"
         apiUrl: "https://api.github.com"
         credentialsId: "github"
+        hookUrl: "http://{{ ansible_host }}/github-webhook/"
   jobs:
     - script: >
         pipelineJob('DjangoAppBuild') {

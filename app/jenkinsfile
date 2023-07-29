@@ -24,7 +24,9 @@ pipeline {
       }
     }
   }
-    triggers {
-    githubPush()
+  triggers {
+    github {
+      triggerPhrase('')
+    }
   }
 }

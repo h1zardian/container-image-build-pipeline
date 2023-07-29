@@ -1,12 +1,7 @@
 ---
-- name: Include Docker Hub credentials
-  ansible.builtin.include_vars:
-    file: group_vars/secrets.yml
-    name: secrets
-
 - name: Docker Login
   ansible.builtin.command:
-    cmd: echo {{ secrets.dockerhub_password }} | docker login -u {{ secrets.dockerhub_username }} --password-stdin
+    cmd: echo {{ dockerhub_password }} | docker login -u {{ dockerhub_username }} --password-stdin
 
 - name: Install Docker
   ansible.builtin.apt:
@@ -23,13 +18,13 @@
 - name: Pull Jenkins Docker image
   community.docker.docker_image:
     name: jenkins/jenkins
-    tag: lts
+    tag: lts-jdk11
     source: pull
 
 - name: Run Jenkins container
   community.docker.docker_container:
     name: jenkins
-    image: jenkins/jenkins:lts
+    image: jenkins/jenkins:lts-jdk11
     ports:
       - "8080:8080"
       - "50000:50000"
@@ -55,8 +50,19 @@
       become: true
 
 - name: Install Jenkins plugins
+  vars:
+    jenkins_plugins:
+      - git
+      - credentials
+      - job-dsl
+      - configuration-as-code
+      - github-branch-source
+      - github
+      - docker-workflow
+      - pipeline-github-lib
+      - pipeline-stage-view
   ansible.builtin.command: >
-    docker exec jenkins bash -c 'jenkins-plugin-cli --plugins git credentials job-dsl configuration-as-code github-branch-source'
+    docker exec jenkins bash -c 'jenkins-plugin-cli --plugins {{ jenkins_plugins | join(" ") }}'
   register: result
   changed_when: result.stdout.find('No updates found') == -1
   until: result.rc == 0
