@@ -1,4 +1,10 @@
 
+
+tfm init
+
+tfm plan
+
+
 ``````
 tfm apply --auto-approve
 ```

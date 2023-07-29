@@ -41,16 +41,16 @@
   ansible.builtin.command:
     cmd: docker exec jenkins mkdir -p /var/jenkins_home/casc_configs
 
-- name: Copy JCasC configuration file to remote host
-  ansible.builtin.copy:
-    src: "files/jenkins-casc.yml"
-    dest: "/tmp/jenkins-casc.yml"
-    mode: '0644'
-  become: yes
-
 - name: Copy JCasC configuration file to Jenkins server
-  ansible.builtin.command: docker cp /tmp/jenkins-casc.yml jenkins:/var/jenkins_home/casc_configs/jenkins.yml
-  become: yes
+  block:
+    - ansible.builtin.copy:
+        src: "files/jenkins-casc.yml"
+        dest: "/tmp/jenkins-casc.yml"
+        mode: '0644'
+      become: true
+
+    - ansible.builtin.command: docker cp /tmp/jenkins-casc.yml jenkins:/var/jenkins_home/casc_configs/jenkins.yml
+      become: true
 
 - name: Install Jenkins plugins
   ansible.builtin.command: >
