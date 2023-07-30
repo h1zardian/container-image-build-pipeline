@@ -3,8 +3,14 @@ jenkins:
   numExecutors: 5
   scmCheckoutRetryCount: 2
   mode: NORMAL
-  jobs:
-    - script: >
+unclassified:
+  githubpluginconfig:
+    configs:
+      - name: "h1zardian"
+        apiUrl: "https://api.github.com"
+        credentialsId: "github"
+jobs:
+  - script: >
         pipelineJob('DjangoAppBuild') {
           definition {
             cpsScm {
@@ -25,12 +31,3 @@ jenkins:
             githubPush()
           }
         }
-unclassified:
-  githubpluginconfig:
-    configs:
-      - name: "h1zardian"
-        apiUrl: "https://api.github.com"
-        credentialsId: "github"
-# crumbIssuer:
-#   standard:
-#     excludeClientIPFromCrumb: false

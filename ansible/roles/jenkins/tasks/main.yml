@@ -43,6 +43,33 @@
       JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
       CASC_JENKINS_CONFIG: "/var/jenkins_home/casc_configs"
 
+# - name: Create directories in Jenkins container
+#   ansible.builtin.command:
+#     cmd: docker exec jenkins mkdir -p /var/jenkins_home/{{ item }}
+#   loop:
+#     - casc_configs
+#     - job-dsl
+
+# - name: Copy files to Jenkins server
+#   ansible.builtin.copy:
+#     src: "files/{{ item.src }}"
+#     dest: "{{ item.dest }}"
+#     mode: '0644'
+#   become: true
+#   with_items:
+#     - { src: 'jenkins-casc.yml', dest: '/tmp/jenkins-casc.yml' }
+#     - { src: 'django-build-job.groovy', dest: '/tmp/django-build-job.groovy' }
+
+# - name: Copy configuration file to Jenkins Container
+#   block:
+#     - name: Copy jenkins-casc from remote host to Jenkins Conatiner
+#       ansible.builtin.command: docker cp /tmp/jenkins-casc.yml jenkins:/var/jenkins_home/casc_configs/jenkins.yml
+#       become: true
+    
+#     - name: Copy django-build-job from remote host to Jenkins Container
+#       ansible.builtin.command: docker cp /tmp/django-build-job.groovy jenkins:/var/jenkins_home/job-dsl/djangoAppBuildJob.groovy
+#       become: true
+
 - name: Create casc_configs directory in Jenkins container
   ansible.builtin.command:
     cmd: docker exec jenkins mkdir -p /var/jenkins_home/casc_configs
