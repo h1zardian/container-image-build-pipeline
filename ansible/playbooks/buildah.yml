@@ -9,6 +9,12 @@
         upgrade: 'yes'
         update_cache: true
 
+    - name: Install required packages
+      ansible.builtin.package:
+        name: ['bats', 'btrfs-progs', 'git', 'go-md2man', 'golang', 'libapparmor-dev', 'libglib2.0-dev', 'libgpgme11-dev', 'libseccomp-dev', 'libselinux1-dev', 'make', 'skopeo', 'containernetworking-plugins']
+        state: present
+      become: true
+
     - name: Install Buildah
       ansible.builtin.apt:
         name: buildah
@@ -29,7 +35,7 @@
           {
             "auths": {
               "https://index.docker.io/v1/": {
-                "auth": "{{ lookup('env', 'DOCKER_HUB_AUTH') }}"
+                "auth": "{{ lookup('env', 'DOCKER_HUB_USERNAME') }}:{{ lookup('env', 'DOCKER_HUB_AUTH') }}"
               }
             }
           }
