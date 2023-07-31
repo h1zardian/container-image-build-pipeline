@@ -28,7 +28,8 @@ jobs:
           git clone https://github.com/h1zardian/cicd-pipeline-project.git
           cd /home/ubuntu/cicd-pipeline-project/app
           echo $DOCKER_HUB_AUTH | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-          buildah bud -t h1zardian/cicd-pipeline-image:${{ substring(github.sha, 0, 6) }} .
+          COMMIT_SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-6)
+          buildah bud -t h1zardian/cicd-pipeline-image:$COMMIT_SHA_SHORT .
           buildah bud -t h1zardian/cicd-pipeline-image:latest .
-          buildah push h1zardian/cicd-pipeline-image:${{ substring(github.sha, 0, 6) }}
+          buildah push h1zardian/cicd-pipeline-image:$COMMIT_SHA_SHORT
           buildah push h1zardian/cicd-pipeline-image:latest
