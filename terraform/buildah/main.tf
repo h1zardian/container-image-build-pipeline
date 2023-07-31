@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_instance" "buildah" {
   ami           = "ami-0f5ee92e2d63afc18" # replace with the correct AMI ID for Jenkins
-  instance_type = "t2.micro"              # adjust as necessary
+  instance_type = "t2.medium"              # adjust as necessary
 
   key_name = "cicd-pipeline-ec2-key" # replace with your key pair name
 
