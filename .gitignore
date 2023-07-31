@@ -1,6 +1,7 @@
 # Ansible files
 group_vars/
 temp/
+hosts
 
 # Django #
 __pycache__/

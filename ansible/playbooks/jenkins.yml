@@ -1,9 +1,0 @@
----
-- name: Install Jenkins
-  hosts: jenkins
-  gather_facts: false
-  become: true
-  vars_files: 
-      - group_vars/jenkins.yml
-  roles:
-    - jenkins

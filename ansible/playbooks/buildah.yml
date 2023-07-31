@@ -1,0 +1,55 @@
+---
+- name: Install Buildah
+  hosts: buildah
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Update all packages
+      ansible.builtin.apt:
+        upgrade: 'yes'
+        update_cache: true
+
+    - name: Install required packages
+      ansible.builtin.package:
+        name: ['make', 'golang-go', 'btrfs-tools', 'libdevmapper-dev', 'libgpgme-dev', 'libassuan-dev', 'git', 'bzip2', 'libc6-dev', 'python3', 'runc', 'skopeo']
+        state: present
+      become: true
+
+    - name: Add buildah user
+      ansible.builtin.user:
+        name: buildah
+        system: true
+        create_home: true
+
+    - name: Clone buildah from github
+      ansible.builtin.git:
+        repo: 'https://github.com/containers/buildah.git'
+        dest: '/home/buildah/buildah'
+        version: 'main'
+      become: true
+
+    - name: Build and install buildah
+      ansible.builtin.command: '{{ item }}'
+      with_items:
+        - make
+        - make install
+      args:
+        chdir: /home/buildah/buildah
+      become: true
+      become_user: buildah
+
+    - name: Add Docker registry login credentials
+      ansible.builtin.copy:
+        dest: /home/buildah/.docker/config.json
+        content: |
+          {
+            "auths": {
+              "https://index.docker.io/v1/": {
+                "auth": "{{ lookup('env', 'DOCKER_HUB_AUTH') }}"
+              }
+            }
+          }
+        owner: buildah
+        group: buildah
+        mode: '0600'
+      no_log: true
