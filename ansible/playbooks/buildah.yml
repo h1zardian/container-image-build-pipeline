@@ -37,7 +37,7 @@
       ansible.builtin.user:
         name: ubuntu
         groups: docker
-        append: yes
+        append: true
 
     - name: Add Docker registry login credentials
       ansible.builtin.copy:
