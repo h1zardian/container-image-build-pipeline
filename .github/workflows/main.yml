@@ -27,8 +27,7 @@ jobs:
           fi
           git clone https://github.com/h1zardian/cicd-pipeline-project.git
           cd /home/ubuntu/cicd-pipeline-project/app
-          echo ${{ secrets.DOCKER_HUB_AUTH }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
-          sudo buildah bud -t h1zardian/cicd-pipeline-image:${{ github.sha }} .
-          sudo buildah bud -t h1zardian/cicd-pipeline-image:latest .
-          sudo buildah push h1zardian/cicd-pipeline-image:${{ github.sha }}
-          sudo buildah push h1zardian/cicd-pipeline-image:latest
+          echo $DOCKER_HUB_AUTH | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          buildah bud -t h1zardian/cicd-pipeline-image:${{ github.sha }} .
+          buildah bud -t h1zardian/cicd-pipeline-image:latest .
+          buildah push h1zardian/cicd-pipeline-image
