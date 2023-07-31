@@ -21,6 +21,8 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         envs: DOCKER_HUB_AUTH
         script: |
+          cd /home/ubuntu/
+          git clone https://github.com/h1zardian/cicd-pipeline-project.git
           cd /home/ubuntu/cicd-pipeline-project/app
           sudo buildah bud -t h1zardian/cicd-pipeline-image:${{ github.sha }} .
           sudo buildah bud -t h1zardian/cicd-pipeline-image:latest .
