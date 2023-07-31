@@ -9,38 +9,22 @@
         upgrade: 'yes'
         update_cache: true
 
-    - name: Install required packages
-      ansible.builtin.package:
-        name: ['make', 'golang-go', 'btrfs-tools', 'libdevmapper-dev', 'libgpgme-dev', 'libassuan-dev', 'git', 'bzip2', 'libc6-dev', 'python3', 'runc', 'skopeo']
-        state: present
-      become: true
-
-    - name: Add buildah user
-      ansible.builtin.user:
+    - name: Install Buildah
+      ansible.builtin.apt:
         name: buildah
-        system: true
-        create_home: true
+        state: present
 
-    - name: Clone buildah from github
-      ansible.builtin.git:
-        repo: 'https://github.com/containers/buildah.git'
-        dest: '/home/buildah/buildah'
-        version: 'main'
-      become: true
-
-    - name: Build and install buildah
-      ansible.builtin.command: '{{ item }}'
-      with_items:
-        - make
-        - make install
-      args:
-        chdir: /home/buildah/buildah
-      become: true
-      become_user: buildah
+    - name: Create .docker directory
+      ansible.builtin.file:
+        path: /home/ubuntu/.docker
+        state: directory
+        mode: '0700'
+        owner: ubuntu
+        group: ubuntu
 
     - name: Add Docker registry login credentials
       ansible.builtin.copy:
-        dest: /home/buildah/.docker/config.json
+        dest: /home/ubuntu/.docker/config.json
         content: |
           {
             "auths": {
@@ -49,7 +33,7 @@
               }
             }
           }
-        owner: buildah
-        group: buildah
+        owner: ubuntu
+        group: ubuntu
         mode: '0600'
       no_log: true
