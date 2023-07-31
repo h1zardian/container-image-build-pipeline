@@ -21,8 +21,8 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         envs: DOCKER_HUB_AUTH
         script: |
-          cd app/
-          sudo -u buildah buildah bud -t your_dockerhub_username/your_image_name:${{ github.sha }} .
-          sudo -u buildah buildah bud -t your_dockerhub_username/your_image_name:latest .
-          sudo -u buildah buildah push your_dockerhub_username/your_image_name:${{ github.sha }}
-          sudo -u buildah buildah push your_dockerhub_username/your_image_name:latest
+          cd cicd-pipeline-project/app
+          sudo buildah bud -t h1zardian/cicd-pipeline-image:${{ github.sha }} .
+          sudo buildah bud -t h1zardian/cicd-pipeline-image:latest .
+          sudo buildah push h1zardian/cicd-pipeline-image:${{ github.sha }}
+          sudo buildah push h1zardian/cicd-pipeline-image:latest
