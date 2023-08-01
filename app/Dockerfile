@@ -50,9 +50,6 @@ COPY --from=builder /usr/src/app/requirements.txt .
 # Install dependencies
 RUN pip install --no-cache /wheels/*
 
-# Change to non-root user
-USER app
-
 # Copy the entrypoint.sh script (if you have one)
 COPY --chown=app:app ./entrypoint.sh /home/app/web
 RUN chmod +x /home/app/web/entrypoint.sh
@@ -62,6 +59,9 @@ COPY --chown=app:app . /home/app/web
 
 # Set the working directory to the Django app
 WORKDIR /home/app/web
+
+# Change to non-root user
+USER app
 
 # Expose the port
 EXPOSE 8000
