@@ -27,8 +27,8 @@ jobs:
           fi
           git clone https://github.com/h1zardian/cicd-pipeline-project.git
           cd cicd-pipeline-project/app
-          buildah build -t cicd-pipeline-image
           COMMIT_SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-6)
-          buildah push --creds ${{ secrets.DOCKER_HUB_USERNAME }}:${{ secrets.DOCKER_HUB_AUTH }} cicid-pipeline-image docker://h1zardian/cicd-pipeline-image:$COMMIT_SHA_SHORT
-          buildah push --creds ${{ secrets.DOCKER_HUB_USERNAME }}:${{ secrets.DOCKER_HUB_AUTH }} cicid-pipeline-image docker://h1zardian/cicd-pipeline-image:latest
-          buildah prune --all
+          buildah build -f Dockerfile -t docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/cicd-pipeline-image:$COMMIT_SHA_SHORT -t docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/cicd-pipeline-image:latest
+          buildah push --creds ${{ secrets.DOCKER_HUB_USERNAME }}:${{ secrets.DOCKER_HUB_AUTH }} docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/cicd-pipeline-image:$COMMIT_SHA_SHORT
+          buildah push --creds ${{ secrets.DOCKER_HUB_USERNAME }}:${{ secrets.DOCKER_HUB_AUTH }} docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/cicd-pipeline-image:latest
+          buildah rmi --all
