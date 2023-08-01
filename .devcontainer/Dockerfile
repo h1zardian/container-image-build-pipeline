@@ -29,12 +29,26 @@ RUN apt-get update \
         jq \
         python-pip-whl \
         python3-pip \
+        libncurses5 \
+        liblttng-ust0 \
+        libssl-dev \
+        zlib1g \
+        libuuid1 \
+        libunwind8 \
+        sqlite3 \
+        libsqlite3-dev \
+        software-properties-common \
+        tk-dev \
+        uuid-dev \
         curl \
+        gettext \
     && rm -rf /var/lib/apt/lists/* \
+    # This is the folder containing 'links' to benv and build script generator
     && apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y software-properties-common \
     && add-apt-repository universe \
+    # Restore man command
+    && yes | unminimize 2>&1 \
     && rm -rf /var/lib/apt/lists/*
 
 
@@ -43,10 +57,8 @@ FROM base AS build
 
 # Install additional build tools
 RUN apt-get update \
-    && apt-get install -y build-essential cmake cppcheck valgrind clang lldb llvm gdb python3-dev \
-    && apt-get install -yq vim vim-doc xtail software-properties-common libsecret-1-dev \
-    && apt-get install -y --no-install-recommends libnss3 libnspr4 libatk-bridge2.0-0 libatk1.0-0 libx11-6 libpangocairo-1.0-0 \
-                                                  libx11-xcb1 libcups2 libxcomposite1 libxdamage1 libxfixes3 libpango-1.0-0 libgbm1 libgtk-3-0 \
+    && apt-get install -y valgrind clang lldb llvm gdb python3-dev \
+    && apt-get install -yq vim vim-doc xtail libsecret-1-dev \
     # Clean up
     && apt-get autoremove -y && apt-get clean -y \
     # Move first run notice to right spot
@@ -54,7 +66,7 @@ RUN apt-get update \
     && mv -f /tmp/scripts/first-run-notice.txt /usr/local/etc/vscode-dev-containers/
 
 # Define final stage
-FROM base AS final
+FROM build AS final
 
 # Copy from build stage
 COPY --from=build /usr/local/etc/vscode-dev-containers /usr/local/etc/vscode-dev-containers

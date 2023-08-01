@@ -111,7 +111,8 @@
             },
             // Add the IDs of extensions you want installed when the container is created.
             "extensions": [
-                "GitHub.vscode-pull-request-github",
+                "github.vscode-pull-request-github",
+                "github.vscode-github-actions"
                 "ms-python.python",
 				"redhat.vscode-yaml",
 				"ms-azuretools.vscode-docker",
