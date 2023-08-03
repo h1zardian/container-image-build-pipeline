@@ -14,16 +14,17 @@ tfm state list
 ```
 
 ```
-tfm state show <jenkins_instance>
+tfm state show <buildah_instance>
 ```
 
 
-# copy the public_ip to ansible/inventory/group_vars/jenkins.yml
+# copy the public_ip to ansible/inventory/hosts
+  and the public_dns to github secrets <EC2_HOST>
 
 ```
 cd ansible
 ```
 
 ```
-ansible-playbook -i inventory/hosts.ini playbooks/jenkins.yml
+ansible-playbook playbooks/jenkins.yml
 ```
