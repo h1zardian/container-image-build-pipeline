@@ -44,6 +44,9 @@
 		"ghcr.io/devcontainers-contrib/features/ansible:2": {
             "version": "latest"
         },
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {
+            "version": "latest"
+        },
         "ghcr.io/devcontainers/features/oryx:1": "latest",
         "./local-features/setup-user": "latest",
         "./local-features/patch-python": "latest"
@@ -60,6 +63,7 @@
         "ghcr.io/devcontainers/features/docker-in-docker",
         "ghcr.io/devcontainers-contrib/features/ansible",
         "ghcr.io/devcontainers-contrib/features/terraform-asdf",
+        "ghcr.io/devcontainers/features/kubectl-helm-minikube",
         "ghcr.io/devcontainers/features/aws-cli",
         "ghcr.io/devcontainers/features/oryx",
         "./local-features/setup-user"
@@ -111,15 +115,15 @@
             },
             // Add the IDs of extensions you want installed when the container is created.
             "extensions": [
-                "github.vscode-pull-request-github",
-                "github.vscode-github-actions",
                 "ms-python.python",
-				"redhat.vscode-yaml",
 				"ms-azuretools.vscode-docker",
-				"amazonwebservices.aws-toolkit-vscode",
 				"hashicorp.terraform",
 				"redhat.ansible",
-				"redhat.vscode-yaml"
+				"redhat.vscode-yaml",
+                "ms-kubernetes-tools.vscode-kubernetes-tools",
+                "github.vscode-github-actions",
+				"amazonwebservices.aws-toolkit-vscode",
+                "pkief.material-icon-theme"
             ]
         }
     },
