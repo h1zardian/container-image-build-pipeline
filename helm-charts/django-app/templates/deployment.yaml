@@ -1,52 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "helm-charts.fullname" . }}
+  name: {{ include "django-chart.fullname" . }}
   labels:
-    {{- include "helm-charts.labels" . | nindent 4 }}
+    {{- include "django-chart.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
-      {{- include "helm-charts.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/name: {{ include "django-chart.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
       labels:
-        {{- include "helm-charts.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/name: {{ include "django-chart.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "helm-charts.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: 8000
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+          envFrom:
+            - configMapRef:
+                name: {{ include "django-chart.fullname" . }}-configmap
+            - secretRef:
+                name: {{ include "django-chart.fullname" . }}-secret
+          volumeMounts:
+            - name: staticfiles
+              mountPath: /home/app/web/staticfiles
+            - name: mediafiles
+              mountPath: /home/app/web/mediafiles
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: staticfiles
+          persistentVolumeClaim:
+            claimName: {{ .Values.volumes.staticfiles }}
+        - name: mediafiles
+          persistentVolumeClaim:
+            claimName: {{ .Values.volumes.mediafiles }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

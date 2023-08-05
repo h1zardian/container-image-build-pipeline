@@ -12,3 +12,6 @@ Update your kubeconfig file with the new EKS cluster details using the AWS CLI. 
 Verify that your kubectl is now set to the new context:
 
 `kubectl config get-contexts`
+
+
+`helm install django-app-release . -f .secrets`

@@ -1,7 +1,21 @@
+# Helm files
+.secrets
+
+
 # Ansible files
 group_vars/
 temp/
 hosts
+
+
+# Terraform files
+.kube/
+.terraform/
+.tfvars
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
 
 # Django #
 __pycache__/
@@ -18,9 +32,11 @@ __pycache__/
 # Backup files #
 *.bak
 
+
 # Python #
 *.py[cod]
 *$py.class
+
 
 # Distribution / packaging
 .Python build/
@@ -41,14 +57,17 @@ wheels/
 *.manifest
 *.spec
 
+
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
+
 
 # Exclude other temporary or unnecessary files
 *.swp
 *.swo
 *.DS_Store
+
 
 # Unit test / coverage reports
 htmlcov/
@@ -61,6 +80,7 @@ nosetests.xml
 coverage.xml
 *.cover
 .hypothesis/
+
 
 # Jupyter Notebook
 .ipynb_checkpoints
@@ -83,12 +103,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.kube/
-.terraform/
-.tfvars
-.terraform.lock.hcl
-terraform.tfstate
-terraform.tfstate.backup
+
 
 # mkdocs documentation
 /site
@@ -105,6 +120,7 @@ Control.ca-list
 Control.ca-bundle
 Control.system-ca-bundle
 GitHub.sublime-settings
+
 
 # Visual Studio Code #
 .vscode/

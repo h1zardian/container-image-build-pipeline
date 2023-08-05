@@ -5,3 +5,4 @@
 🔍 To dig deeper into VS Code, use the Command Palette (Cmd/Ctrl + Shift + P or F1).
 
 📝 Edit away and just customize the code, and let the devcontainer handle the rest...
+
