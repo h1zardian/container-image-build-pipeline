@@ -20,11 +20,11 @@ output "cluster_certificate_authority_data" {
 
 output "db_instance_endpoint" {
   description = "The connection endpoint for the RDS instance"
-  value       = aws_db_instance.pipeline-database.endpoint
+  value       = aws_db_instance.pipeline_database.endpoint
 }
 
 output "db_instance_password" {
   description = "The password for the RDS instance"
-  value       = aws_db_instance.pipeline-database.password
+  value       = aws_db_instance.pipeline_database.password
   sensitive   = true
 }

@@ -1,5 +1,6 @@
 # Helm files
 .secrets
+*.secrets
 
 
 # Ansible files
@@ -11,7 +12,6 @@ hosts
 # Terraform files
 .kube/
 .terraform/
-.tfvars
 .terraform.lock.hcl
 terraform.tfstate
 terraform.tfstate.backup

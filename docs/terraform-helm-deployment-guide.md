@@ -14,4 +14,13 @@ Verify that your kubectl is now set to the new context:
 `kubectl config get-contexts`
 
 
-`helm install django-app-release . -f .secrets`
+`helm install django-app-release . -f user-values.yaml`
+
+
+
+
+To install:
+ansible-playbook helm-charts.yml -e "helm_action=install"
+
+To uninstall:
+ansible-playbook helm-charts.yml -e "helm_action=absent"

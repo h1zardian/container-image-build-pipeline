@@ -1,4 +1,13 @@
-resource "aws_db_instance" "pipeline-database" {
+resource "aws_db_subnet_group" "pipeline_database_sng" {
+  name       = "pipeline_database_sng"
+  subnet_ids = module.vpc.private_subnets
+
+  tags = {
+    Name = "database subnet group"
+  }
+}
+
+resource "aws_db_instance" "pipeline_database" {
   allocated_storage       = 20
   storage_type            = "gp2"
   engine                  = "postgres"
@@ -10,20 +19,11 @@ resource "aws_db_instance" "pipeline-database" {
   parameter_group_name    = "default.postgres14"
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.database_sg.id]
-  db_subnet_group_name    = aws_db_subnet_group.pipeline-database-sng.name
+  db_subnet_group_name    = aws_db_subnet_group.pipeline_database_sng.name
   backup_retention_period = 0     # disable automated backups
   multi_az                = false # disable Multi-AZ deployment
   tags = {
     Name = "pipeline-database"
-  }
-}
-
-resource "aws_db_subnet_group" "pipeline-database-sng" {
-  name       = "pipeline-database-sng"
-  subnet_ids = module.vpc.private_subnets
-
-  tags = {
-    Name = "database subnet group"
   }
 }
 

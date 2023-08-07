@@ -1,0 +1,22 @@
+---
+- name: Add buildah repository key
+  ansible.builtin.apt_key:
+    url: https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_22.04/Release.key
+    state: present
+
+- name: Enable buildah repository
+  ansible.builtin.apt_repository:
+    repo: deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_22.04/ /
+    update_cache: true
+    filename: buildah
+
+- name: Update all packages
+  ansible.builtin.apt:
+    upgrade: 'yes'
+    update_cache: true
+
+- name: Install Buildah
+  ansible.builtin.apt:
+    name: ['buildah', 'podman']
+    state: present
+    update_cache: true

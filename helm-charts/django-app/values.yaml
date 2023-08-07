@@ -3,7 +3,7 @@ replicaCount: 2
 image:
   repository: "docker.io/h1zardian/cicd-pipeline-image"
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: {}
 
 service:
   type: LoadBalancer
