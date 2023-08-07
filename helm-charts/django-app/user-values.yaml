@@ -1,6 +1,3 @@
-image:
-  repository:
-
 secret:
   SECRET_KEY:
   POSTGRES_DB:
