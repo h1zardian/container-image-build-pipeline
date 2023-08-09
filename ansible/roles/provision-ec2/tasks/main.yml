@@ -4,11 +4,6 @@
     project_path: "{{ buildah_terraform_dir }}"
     state: present
     force_init: true
-
-- name: Apply Terraform Configuration for EC2
-  community.general.terraform:
-    project_path: "{{ buildah_terraform_dir }}"
-    state: present
   register: terraform_output
 
 - name: Add EC2 instance to inventory
