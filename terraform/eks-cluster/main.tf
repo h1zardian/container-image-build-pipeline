@@ -6,7 +6,7 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "17.1.0" # specify the version you want to use
 
-  cluster_name    = "cicd_pipeline_cluster"
+  cluster_name    = "cicd-pipeline-cluster"
   cluster_version = "1.27"
   subnets         = module.vpc.private_subnets
   vpc_id          = module.vpc.vpc_id
