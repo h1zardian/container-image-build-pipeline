@@ -1,4 +1,0 @@
-region: ap-south-1
-cluster_name: cicd-pipeline-cluster
-eks_terraform_dir: /workspaces/cicd-pipeline-project/terraform/eks-cluster
-terraform_var_file: /workspaces/cicd-pipeline-project/terraform/eks-cluster/.tfvars

@@ -1,8 +1,0 @@
----
-- name: Provision EKS Cluster and Deploy Helm Charts
-  hosts: localhost
-  gather_facts: false
-
-  roles:
-    - provision-eks
-    - deploy-charts
