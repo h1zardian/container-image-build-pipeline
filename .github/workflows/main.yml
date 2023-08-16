@@ -22,13 +22,13 @@ jobs:
         # envs: DOCKER_HUB_AUTH,DOCKER_HUB_USERNAME
         script: |
           cd /home/ubuntu/
-          if [ -d "/home/ubuntu/cicd-pipeline-project" ]; then
-          rm -rf cicd-pipeline-project
+          if [ -d "/home/ubuntu/container-image-build-pipeline" ]; then
+          rm -rf container-image-build-pipeline
           fi
-          git clone https://github.com/h1zardian/cicd-pipeline-project.git
-          cd cicd-pipeline-project/app
+          git clone https://github.com/h1zardian/container-image-build-pipeline.git
+          cd container-image-build-pipeline/app
           COMMIT_SHA_SHORT=$(echo ${{ github.sha }} | cut -c1-6)
-          buildah build -f Dockerfile -t docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/cicd-pipeline-image:$COMMIT_SHA_SHORT -t docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/cicd-pipeline-image:latest
-          buildah push --creds ${{ secrets.DOCKER_HUB_USERNAME }}:${{ secrets.DOCKER_HUB_AUTH }} docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/cicd-pipeline-image:$COMMIT_SHA_SHORT
-          buildah push --creds ${{ secrets.DOCKER_HUB_USERNAME }}:${{ secrets.DOCKER_HUB_AUTH }} docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/cicd-pipeline-image:latest
+          buildah build -f Dockerfile -t docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/django-pipeline-image:$COMMIT_SHA_SHORT -t docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/django-pipeline-image:latest
+          buildah push --creds ${{ secrets.DOCKER_HUB_USERNAME }}:${{ secrets.DOCKER_HUB_AUTH }} docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/django-pipeline-image:$COMMIT_SHA_SHORT
+          buildah push --creds ${{ secrets.DOCKER_HUB_USERNAME }}:${{ secrets.DOCKER_HUB_AUTH }} docker.io/${{ secrets.DOCKER_HUB_USERNAME }}/django-pipeline-image:latest
           buildah rmi --all

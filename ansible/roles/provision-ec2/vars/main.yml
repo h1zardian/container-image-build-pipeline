@@ -1,1 +1,1 @@
-buildah_terraform_dir: /workspaces/cicd-pipeline-project/terraform/buildah-server
+buildah_terraform_dir: /workspaces/container-image-build-pipeline/terraform/buildah-server
