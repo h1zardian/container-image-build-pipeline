@@ -4,8 +4,8 @@
 ## About The Project
 
 <div>
-  <a href="https://raw.githubusercontent.com/h1zardian/cluster-provisioning-pipeline/main/docs/build-pipeline.png">
-  <img src="https://raw.githubusercontent.com/h1zardian/cluster-provisioning-pipeline/main/docs/build-pipeline.png">
+  <a href="https://raw.githubusercontent.com/h1zardian/container-image-build-pipeline/main/docs/build-pipeline.png">
+  <img src="https://raw.githubusercontent.com/h1zardian/container-image-build-pipeline/main/docs/build-pipeline.png">
   </a>
 </div>
 
