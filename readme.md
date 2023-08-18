@@ -46,20 +46,21 @@ Also create the ssh key-pair for the ec2 instance and add it to the `~/.ssh` fol
 e.g: build-pipeline-ec2.key
 
 Change the permission of the key-pair file to 600
+
 ```bash
-$ chmod 600 build-pipeline-ec2.key
+chmod 600 build-pipeline-ec2.key
 ```
 
 Check the `ansible.cfg` file and change the `private_key_file` to the key-pair file name.
 
 Execute the ansible playbook
 ```bash
-$ ansible-playbook playbooks/buildah-pipeline.yml
+ansible-playbook playbooks/buildah-pipeline.yml
 ```
 
 Check the terraform state of the `buildah_instance` and copy the `public_dns`
 ```bash
-$ terraform state show aws_instance.buildah
+terraform state show aws_instance.buildah
 ```
 
 Add the `public_dns` to github repo secrets as `EC2_HOST`.
@@ -69,7 +70,7 @@ Now you can make a commit to the repo to trigger the pipeline. And it will build
 ### Destroy the Terraform Resources and GitHub Actions Workflow
 To destroy the terraform provisioned resources, change directory to `terraform/buildah-server` and execute the following command
 ```bash
-$ terraform destroy --auto-approve
+terraform destroy --auto-approve
 ```
 
 And to disable the GitHub Actions workflow, go to the `Actions` tab of the repo and disable the workflow from there.  
