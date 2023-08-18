@@ -40,7 +40,9 @@ EC2_SSH_KEY          # private key of the ec2 instance
 EC2_USERNAME         # username of the ec2 instance (default: ubuntu)
 ```
 
-Add the ec2 key-pair file in the ansible folder.  
+Check if the aws access key is present in the `~/.aws/credentials` file. If not, create the access key for your IAM user and add it to the file.
+
+Also create the ssh key-pair for the ec2 instance and add it to the `~/.ssh` folder or the ansible folder of the project directory.  
 e.g: build-pipeline-ec2.key
 
 Change the permission of the key-pair file to 600
@@ -48,7 +50,7 @@ Change the permission of the key-pair file to 600
 $ chmod 600 build-pipeline-ec2.key
 ```
 
-Check the `ansible.cfg` file and change the `private_key_file` to the key file name.
+Check the `ansible.cfg` file and change the `private_key_file` to the key-pair file name.
 
 Execute the ansible playbook
 ```bash
@@ -64,8 +66,11 @@ Add the `public_dns` to github repo secrets as `EC2_HOST`.
 
 Now you can make a commit to the repo to trigger the pipeline. And it will build the container image and push it to the DockerHub Registry.
 
-### Destroy the Terraform Resources
+### Destroy the Terraform Resources and GitHub Actions Workflow
 To destroy the terraform provisioned resources, change directory to `terraform/buildah-server` and execute the following command
 ```bash
 $ terraform destroy --auto-approve
 ```
+
+And to disable the GitHub Actions workflow, go to the `Actions` tab of the repo and disable the workflow from there.  
+docs link: [GitHub Workflow Docs](https://docs.github.com/en/enterprise-cloud@latest/actions/using-workflows/disabling-and-enabling-a-workflow?tool=webui).
